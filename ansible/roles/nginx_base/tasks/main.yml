@@ -2,11 +2,12 @@
 
 # Install nginx.
 
-- name: Purge apache2
+- name: Uninstall apache2
   apt:
     name: apache2
+    state: absent
     purge: yes
-  ignore_errors: yes
+    autoremove: yes
 
 - name: Mask nginx
   systemd:
