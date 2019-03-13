@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  gather_facts: yes
+  roles:
+  - common
+  - common_debian
+  - common_vagrant
+
+  tasks:
+  - import_tasks: local.yml

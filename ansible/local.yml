@@ -1,29 +1,48 @@
 ---
-# Playbook to set-up and configure local server
+- name: Install and setup nginx
+  include_role: setup_nginx
 
-#Keep the role "configure_sphinx" commented unless you want to
-#create indexes and start the search daemon (indexing takes 6-8 hours)
+- name: Install and setup PHP
+  include_role: setup_php
 
-- hosts: all
-  become: true
-  gather_facts: yes
-  roles:
-  - common
-  - common_debian
-  - common_vagrant
-  - setup_nginx
-  - setup_php
-  - setup_mysql
-  - { role: update_code, become: false }
-  - { role: setup_database, import_csv: 'no' }
-  - install_sphinx
-  - { role: configure_sphinx, sphinx_create_indexes: true }
-  - { role: setup_nihongoparserd, force_install: no }
-  - { role: setup_sinoparserd, force_install: no }
-  - { role: setup_suggestd, force_install: no }
+- name: Install and setup MySQL
+  include_role: setup_mysql
 
-  tasks:
-  - import_tasks: install.yml
-    vars:
-      repo: https://github.com/Tatoeba/Tatodetect
-      force_install: no
+- name: Install and setup Tatoeba
+  include_role: update_code
+  vars:
+    become: false
+
+- name: Install and setup Tatoeba's database
+  include_role: setup_database
+  vars:
+    import_csv: 'no'
+
+- name: Install Sphinx search engine
+  include_role: install_sphinx
+
+- name: Configure Sphinx search engine
+  include_role: configure_sphinx
+  vars:
+    sphinx_create_indexes: true
+
+- name: Install and setup Nihongoparserd
+  include_role: setup_nihongoparserd
+  vars:
+    force_install: no
+
+- name: Install and setup Sinoparserd
+  include_role: setup_sinoparserd
+  vars:
+    force_install: no
+
+- name: Install and setup Suggestd
+  include_role: setup_suggestd
+  vars:
+    force_install: no
+
+- name: Install and setup Tatodetect
+  import_tasks: install.yml
+  vars:
+    repo: https://github.com/Tatoeba/Tatodetect
+    force_install: no
