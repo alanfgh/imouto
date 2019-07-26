@@ -14,7 +14,7 @@ Here are the basic requirements of the machine you’re using imouto from.
 
 ## Installing a local instance
 
-- Install the requirements above.
+- Install the software (Git, VirtualBox, Vagrant) mentioned in the requirements above.
 
 - Open a terminal. Windows users can run Git Bash (which comes with Git for Windows). In the terminal, clone Imouto’s repository and go into the cloned directory by running the following commands:
 
@@ -37,7 +37,7 @@ cd imouto
 vagrant up
 ```
 
-- Once it completed, you should be able to access your local instance of Tatoeba at http://localhost:8080/
+- Once it has completed, you should be able to access your local instance of Tatoeba at http://localhost:8080/
 
 - You can log in using one of these accounts: `admin`, `corpus_maintainer`, `advanced_contributor`, `contributor`, `inactive` and `spammer`. For all of them the password is `123456`.
 
@@ -60,7 +60,19 @@ Now you should be able to run `mount Tatoeba/` and access the source code there.
 
 #### Using Windows Shared Folder
 
-If you’re using Windows, the source code is served as a Windows share. Open *Run* from the Start menu or the search, or by pressing Win+R. In the Run prompt, type `\\172.19.119.178\tatoeba`. This should open the source code of Tatoeba in the file explorer.
+If you’re using Windows, the source code is served as a Windows share. Open *Run* from the Start menu or the search, or by pressing Win+R. In the Run prompt, type `\\172.19.119.178\tatoeba`. This should open the source code of Tatoeba in the file explorer. 
+
+If Windows Security prevents you from logging in without a username and password, connect to the VM via SSH with this command:
+
+```
+vagrant ssh
+```
+
+Then, within the VM, issue this command:
+```
+sudo smbpasswd -a vagrant
+```
+It will ask you to enter a password. You can press Enter with an empty password if you wish. Now try again to go to `\\172.19.119.178\tatoeba`. Enter ```vagrant``` as username and use the password you selected before.
 
 #### Using SSHFS (Unix/MacOS)
 
@@ -124,6 +136,7 @@ mysql tatoeba
 
 sudo mysql tatoeba # for operations requiring root privileges
 ```
+Use ```exit``` to exit from MySQL.
 
 ### Search engine
 
